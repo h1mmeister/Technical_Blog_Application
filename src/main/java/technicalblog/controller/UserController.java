@@ -33,8 +33,8 @@ public class UserController {
     @RequestMapping(value = "users/registration", method=RequestMethod.POST)
     public String registerUser(User user) {
         return "users/login";
-    }
 
+    }
     @RequestMapping(value = "users/login", method = RequestMethod.POST)
     public String loginUser(User user){
         if(userService.login(user)) {
@@ -44,6 +44,7 @@ public class UserController {
             return "users/login";
         }
     }
+
 
     @RequestMapping(value = "users/logout", method = RequestMethod.POST)
     public String logout(Model model) {

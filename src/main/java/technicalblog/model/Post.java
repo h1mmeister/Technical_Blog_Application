@@ -1,5 +1,6 @@
 package technicalblog.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Post {
@@ -30,4 +31,5 @@ public class Post {
     public void setDate(Date date) {
         this.date = date;
     }
+
 }
