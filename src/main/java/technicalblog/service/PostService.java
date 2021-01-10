@@ -24,10 +24,10 @@ public class PostService {
 //
 //        posts.add(post1);
 //        posts.add(post2);
-
+        Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/technicalblog","postgres","himanshu");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/technicalblog","postgres","himanshu");
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM posts");
             while(rs.next()){
@@ -39,6 +39,12 @@ public class PostService {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        }finally{
+            try{
+                connection.close();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
         }
 
         return posts;
@@ -53,9 +59,10 @@ public class PostService {
 //        post1.setBody("--- It has some valid content ---");
 //        post1.setDate(new Date());
 //        posts.add(post1);
+        Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/technicalblog","postgres","himanshu");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/technicalblog","postgres","himanshu");
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM posts WHERE id = 3");
             while(rs.next()){
@@ -67,6 +74,12 @@ public class PostService {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        }finally{
+            try{
+                connection.close();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
         }
 
         return posts;
