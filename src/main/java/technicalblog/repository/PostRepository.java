@@ -55,4 +55,17 @@ public class PostRepository {
             transaction.rollback();
         }
     }
+    public void deletePost(Integer postId) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            Post post = em.find(Post.class, postId);
+            em.remove(post);
+            transaction.commit();
+        }catch(Exception e) {
+            transaction.rollback();
+        }
+    }
 }
