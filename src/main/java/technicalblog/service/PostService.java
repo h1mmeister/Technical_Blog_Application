@@ -1,7 +1,9 @@
 package technicalblog.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import technicalblog.model.Post;
+import technicalblog.repository.PostRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,11 +17,11 @@ import java.util.List;
 @Service
 public class PostService {
 
-    @PersistenceUnit(unitName = "techblog")
-    private EntityManagerFactory emf;
+    @Autowired
+    private PostRepository repository;
 
     public List<Post> getAllPosts() {
-        ArrayList<Post> posts = new ArrayList<Post>();
+//        ArrayList<Post> posts = new ArrayList<Post>();
 
 //        Post post1 = new Post();
 //        post1.setTitle("Post 1");
@@ -34,9 +36,9 @@ public class PostService {
 //        posts.add(post1);
 //        posts.add(post2);
 
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Post> query = em.createQuery("SELECT p FROM Post p", Post.class);
-        List<Post> resultList = query.getResultList();
+//        EntityManager em = emf.createEntityManager();
+//        TypedQuery<Post> query = em.createQuery("SELECT p FROM Post p", Post.class);
+//        List<Post> resultList = query.getResultList();
 
 
 //        Connection connection = null;
@@ -62,44 +64,51 @@ public class PostService {
 //            }
 //        }
 
-        return resultList;
+        return repository.getAllPosts();
 
     }
 
-    public ArrayList<Post> getOnePost() {
-        ArrayList<Post> posts = new ArrayList<>();
+    public Post getOnePost() {
+
+//        ArrayList<Post> posts = new ArrayList<>();
 
 //        Post post1 = new Post();
 //        post1.setTitle("This is your Post");
 //        post1.setBody("--- It has some valid content ---");
 //        post1.setDate(new Date());
 //        posts.add(post1);
-        Connection connection = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/technicalblog","postgres","himanshu");
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM posts WHERE id = 3");
-            while(rs.next()){
-                Post post = new Post();
-                post.setTitle(rs.getString("title"));
-                post.setBody(rs.getString("body"));
-                posts.add(post);
-            }
+//        Connection connection = null;
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/technicalblog","postgres","himanshu");
+//            Statement statement = connection.createStatement();
+//            ResultSet rs = statement.executeQuery("SELECT * FROM posts WHERE id = 3");
+//            while(rs.next()){
+//                Post post = new Post();
+//                post.setTitle(rs.getString("title"));
+//                post.setBody(rs.getString("body"));
+//                posts.add(post);
+//            }
+//
+//        } catch (ClassNotFoundException | SQLException e) {
+//            e.printStackTrace();
+//        }finally{
+//            try{
+//                connection.close();
+//            }catch(SQLException e){
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return posts;
 
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }finally{
-            try{
-                connection.close();
-            }catch(SQLException e){
-                e.printStackTrace();
-            }
-        }
-
-        return posts;
+        return repository.getLatestPost();
 
     }
     public void createPost (Post newPost){
+        newPost.setDate(new Date());
+        repository.createPost(newPost);
+        System.out.println("New Post " + newPost);
+
     }
 }
