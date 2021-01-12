@@ -4,10 +4,7 @@ package technicalblog.repository;
 import org.springframework.stereotype.Repository;
 import technicalblog.model.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
 
 @Repository
 public class UserRepository {
@@ -24,6 +21,19 @@ public class UserRepository {
             transaction.commit();
         }catch(Exception e) {
             transaction.rollback();
+        }
+    }
+    public User checkUser(String username, String password) {
+
+        try {
+            EntityManager em = emf.createEntityManager();
+            TypedQuery<User> typedQuery = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class);
+            typedQuery.setParameter("username", username);
+            typedQuery.setParameter("password", password);
+
+            return typedQuery.getSingleResult();
+        }catch(NoResultException nre) {
+            return null;
         }
     }
 }
