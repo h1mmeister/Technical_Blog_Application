@@ -23,6 +23,8 @@ public class User {
     @JoinColumn(name = "profile_id")
     private UserProfile profile;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 
     public UserProfile getProfile() {
         return profile;
