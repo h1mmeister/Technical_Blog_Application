@@ -12,7 +12,6 @@ import technicalblog.model.User;
 import technicalblog.service.PostService;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
